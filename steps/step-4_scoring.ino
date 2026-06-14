@@ -6,9 +6,9 @@ U8G2_SH1106_128X64_NONAME_1_HW_I2C u8g2(U8G2_R0);
 #define STICK_RIGHT 3
 #define STICK_DOWN 4
 #define STICK_BTN 5
-#define MESA_BTN 19
 #define A_BTN 20
 #define B_BTN 24
+#define C_BTN 19
 #define VOLTAGE 8
 
 float player_x = 56;
