@@ -29,29 +29,28 @@ void setup() {
 }
 
 void loop() {
-  u8g2.firstPage();
-  do {
-    if (!game_over) {
 
-      // Move player
-      if (!digitalRead(STICK_LEFT) && player_x > 0) {
-        player_x -= 0.3;
-      }
-      if (!digitalRead(STICK_RIGHT) && player_x < 112) {
-        player_x += 0.3;
-      }
- 
-      // Move hoop
-      hoop_y += 0.25;
+  if (!game_over) {
 
-      // Check if player is in hoop
-      if (player_x + 8 >= hoop_x - 16
+    // Move player
+    if (!digitalRead(STICK_LEFT) && player_x > 0) {
+      player_x -= 2;
+    }
+    if (!digitalRead(STICK_RIGHT) && player_x < 112) {
+      player_x += 2;
+    }
+
+    // Move hoop
+    hoop_y += 2;
+
+    // Check if player is in hoop
+    if (player_x + 8 >= hoop_x - 16
       && player_x + 8 <= hoop_x + 16
       && player_y - 8 >= hoop_y - 8
       && player_y - 8 <= hoop_y + 8
       && !got_hoop) {
-        got_hoop = true;
-        score++;
+      got_hoop = true;
+    score++;
       }
 
       // Reset hoop & check for game over
@@ -65,10 +64,10 @@ void loop() {
           game_over = true;
         }
       }
-    }
-    else {
-      u8g2.drawStr(40, 32, "GAME OVER");
-    }
+  }
+
+  u8g2.firstPage();
+  do {
 
     // Draw player
     u8g2.setFont(u8g2_font_unifont_t_animals);
@@ -83,7 +82,12 @@ void loop() {
     itoa(score, score_text, 10);
     u8g2.drawStr(100, 8, score_text);
 
-    // Battery indicator
+    // Draw game over text
+    if (game_over) {
+      u8g2.drawStr(40, 32, "GAME OVER");
+    }
+
+    // Draw battery indicator
     u8g2.drawFrame(0, 0, 10, 5);
     u8g2.drawBox(0, 0, int(analogRead(VOLTAGE)*0.0174 - 8.33), 5);
     u8g2.drawPixel(10, 3);

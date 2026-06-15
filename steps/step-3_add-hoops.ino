@@ -17,8 +17,6 @@ float player_y = 60;
 float hoop_x = 40;
 float hoop_y = -8;
 
-bool game_over = false;
-
 void setup() {
   u8g2.begin();
   pinMode(STICK_LEFT, INPUT_PULLUP);
@@ -27,27 +25,26 @@ void setup() {
 }
 
 void loop() {
+
+  // Move player
+  if (!digitalRead(STICK_LEFT) && player_x > 0) {
+    player_x -= 2;
+  }
+  if (!digitalRead(STICK_RIGHT) && player_x < 112) {
+    player_x += 2;
+  }
+
+  // Move hoop
+  hoop_y += 2;
+
+  // Reset hoop
+  if (hoop_y > 64) {
+    hoop_y = -8;
+    hoop_x = random(0, 96);
+  }
+
   u8g2.firstPage();
   do {
-    if (!game_over) {
-
-      // Move player
-      if (!digitalRead(STICK_LEFT) && player_x > 0) {
-        player_x -= 0.3;
-      }
-      if (!digitalRead(STICK_RIGHT) && player_x < 112) {
-        player_x += 0.3;
-      }
- 
-      // Move hoop
-      hoop_y += 0.25;
-
-      // Reset hoop
-      if (hoop_y > 64) {
-        hoop_y = -8;
-        hoop_x = random(0, 96);
-      }
-    }
 
     // Draw player
     u8g2.setFont(u8g2_font_unifont_t_animals);
